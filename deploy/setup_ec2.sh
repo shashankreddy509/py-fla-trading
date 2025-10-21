@@ -51,4 +51,4 @@ sudo systemctl start flask-app
 sudo systemctl enable flask-app
 
 echo "Flask app setup complete!"
-echo "Your app should be accessible at http://your-ec2-public-ip"
+echo "Your app should be accessible at http://algo.gshashank.com"
