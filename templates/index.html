@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Flask App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="jumbotron bg-primary text-white p-5 rounded">
+            <h1 class="display-4">Welcome to Flask App!</h1>
+            <p class="lead">This is a production-ready Flask application that can be deployed to AWS EC2.</p>
+            <hr class="my-4">
+            <p>Click the button below to test the API endpoint.</p>
+            <button class="btn btn-light btn-lg" onclick="fetchData()">Test API</button>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Features</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">✅ Production-ready Flask setup</li>
+                    <li class="list-group-item">✅ Gunicorn WSGI server</li>
+                    <li class="list-group-item">✅ Health check endpoint</li>
+                    <li class="list-group-item">✅ Error handling</li>
+                    <li class="list-group-item">✅ Bootstrap UI</li>
+                    <li class="list-group-item">✅ EC2 deployment ready</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>API Response</h5>
+            </div>
+            <div class="card-body">
+                <pre id="api-response" class="bg-light p-3 rounded">Click "Test API" to see response</pre>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
