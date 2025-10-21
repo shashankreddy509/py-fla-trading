@@ -1,45 +1,115 @@
 {% extends "base.html" %}
 
-{% block title %}Home - Flask App{% endblock %}
+{% block title %}Home - Algorithmic Trading Platform{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-8 mx-auto">
         <div class="jumbotron bg-primary text-white p-5 rounded">
-            <h1 class="display-4">Welcome to Flask App!</h1>
-            <p class="lead">This is a production-ready Flask application that can be deployed to AWS EC2.</p>
+            <h1 class="display-4">Algorithmic Trading Platform</h1>
+            <p class="lead">A production-ready Flask application with Firebase Firestore integration for managing your trading data.</p>
             <hr class="my-4">
-            <p>Click the button below to test the API endpoint.</p>
-            <button class="btn btn-light btn-lg" onclick="fetchData()">Test API</button>
+            <p>Test the API endpoints and manage your trading portfolio.</p>
+            <button class="btn btn-light btn-lg me-2" onclick="fetchData()">Test API</button>
+            <button class="btn btn-outline-light btn-lg" onclick="showAddTradeModal()">Add Trade</button>
         </div>
     </div>
 </div>
 
 <div class="row mt-4">
-    <div class="col-md-6">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Portfolio Summary</h5>
+            </div>
+            <div class="card-body">
+                <div id="portfolio-summary">
+                    <p class="text-muted">Loading portfolio data...</p>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="loadPortfolioSummary()">Refresh</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header">
                 <h5>Features</h5>
             </div>
             <div class="card-body">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">✅ Production-ready Flask setup</li>
-                    <li class="list-group-item">✅ Gunicorn WSGI server</li>
-                    <li class="list-group-item">✅ Health check endpoint</li>
-                    <li class="list-group-item">✅ Error handling</li>
-                    <li class="list-group-item">✅ Bootstrap UI</li>
-                    <li class="list-group-item">✅ EC2 deployment ready</li>
+                    <li class="list-group-item">✅ Firebase Firestore integration</li>
+                    <li class="list-group-item">✅ Real-time trade management</li>
+                    <li class="list-group-item">✅ Portfolio tracking</li>
+                    <li class="list-group-item">✅ RESTful API endpoints</li>
+                    <li class="list-group-item">✅ Secure HTTPS deployment</li>
+                    <li class="list-group-item">✅ Production-ready setup</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-header">
                 <h5>API Response</h5>
             </div>
             <div class="card-body">
                 <pre id="api-response" class="bg-light p-3 rounded">Click "Test API" to see response</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>Recent Trades</h5>
+                <button class="btn btn-outline-primary btn-sm" onclick="loadTrades()">Refresh</button>
+            </div>
+            <div class="card-body">
+                <div id="trades-list">
+                    <p class="text-muted">Loading trades...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Trade Modal -->
+<div class="modal fade" id="addTradeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Trade</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addTradeForm">
+                    <div class="mb-3">
+                        <label for="symbol" class="form-label">Symbol</label>
+                        <input type="text" class="form-control" id="symbol" required placeholder="e.g., AAPL">
+                    </div>
+                    <div class="mb-3">
+                        <label for="action" class="form-label">Action</label>
+                        <select class="form-control" id="action" required>
+                            <option value="">Select action</option>
+                            <option value="BUY">Buy</option>
+                            <option value="SELL">Sell</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control" id="quantity" required min="1" placeholder="100">
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="price" required step="0.01" min="0" placeholder="150.00">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="addTrade()">Add Trade</button>
             </div>
         </div>
     </div>
