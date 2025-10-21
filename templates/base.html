@@ -39,5 +39,23 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Fallback if main.js doesn't load
+        if (typeof fetchData === 'undefined') {
+            function fetchData() {
+                const responseElement = document.getElementById('api-response');
+                responseElement.textContent = 'Loading...';
+                
+                fetch('/api/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        responseElement.textContent = JSON.stringify(data, null, 2);
+                    })
+                    .catch(error => {
+                        responseElement.textContent = 'Error: ' + error.message;
+                    });
+            }
+        }
+    </script>
 </body>
 </html>
