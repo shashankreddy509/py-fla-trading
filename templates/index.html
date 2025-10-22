@@ -35,14 +35,14 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Swing Trading Screener</h5>
-                <button class="btn btn-outline-primary btn-sm" onclick="loadSwingScreener()">
-                    <i class="fas fa-search"></i> Scan Market
+                <h5 class="mb-0">Recent Trades</h5>
+                <button class="btn btn-outline-primary btn-sm" onclick="loadTrades()">
+                    <i class="fas fa-refresh"></i> Refresh
                 </button>
             </div>
             <div class="card-body">
-                <div id="screener-results">
-                    <p class="text-muted">Click "Scan Market" to find swing trading opportunities</p>
+                <div id="trades-list">
+                    <p class="text-muted">Loading trades...</p>
                 </div>
             </div>
         </div>
@@ -53,14 +53,14 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Recent Trades</h5>
-                <button class="btn btn-outline-primary btn-sm" onclick="loadTrades()">
-                    <i class="fas fa-refresh"></i> Refresh
+                <h5 class="mb-0">Swing Trading Screener</h5>
+                <button class="btn btn-outline-primary btn-sm" onclick="loadSwingScreener()">
+                    <i class="fas fa-search"></i> Scan Market
                 </button>
             </div>
             <div class="card-body">
-                <div id="trades-list">
-                    <p class="text-muted">Loading trades...</p>
+                <div id="screener-results">
+                    <p class="text-muted">Click "Scan Market" to find swing trading opportunities</p>
                 </div>
             </div>
         </div>
