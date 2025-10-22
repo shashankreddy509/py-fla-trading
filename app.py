@@ -82,6 +82,24 @@ def trades():
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
+@app.route('/api/swing-screener', methods=['GET'])
+def swing_screener():
+    """Fetch swing trading opportunities from ChartInk screener"""
+    try:
+        from pyton_scripts.fetch_swing_trade_script import fetch_swing_trades
+        
+        # Get screener results
+        screener_data = fetch_swing_trades()
+        
+        return jsonify({
+            'success': True,
+            'count': len(screener_data),
+            'stocks': screener_data,
+            'timestamp': datetime.utcnow().isoformat()
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.errorhandler(404)
 def not_found(error):
     """Custom 404 error handler"""

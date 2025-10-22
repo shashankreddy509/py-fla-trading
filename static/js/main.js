@@ -148,7 +148,73 @@ function addTrade() {
     });
 }
 
-function showNotification(message, type = 'info') {
+function loadSwingScreener() {
+    const screenerElement = document.getElementById('screener-results');
+    screenerElement.innerHTML = '<p class="text-muted"><i class="fas fa-spinner fa-spin"></i> Scanning market for swing opportunities...</p>';
+    
+    fetch('/api/swing-screener')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.stocks && data.stocks.length > 0) {
+                let screenerHtml = `
+                    <div class="mb-2">
+                        <small class="text-muted">Found ${data.count} opportunities • Last scan: ${new Date(data.timestamp).toLocaleTimeString()}</small>
+                    </div>
+                    <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                        <table class="table table-sm table-hover">
+                            <thead class="table-light sticky-top">
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Price</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                data.stocks.forEach((stock, index) => {
+                    screenerHtml += `
+                        <tr>
+                            <td>
+                                <strong>${stock.symbol}</strong>
+                                <br><small class="text-muted">${stock.name}</small>
+                            </td>
+                            <td>₹${stock.close_price}</td>
+                            <td>
+                                <button class="btn btn-success btn-sm" onclick="addScreenerTrade('${stock.symbol}', ${stock.close_price})">
+                                    <i class="fas fa-plus"></i> Add Trade
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                screenerHtml += '</tbody></table></div>';
+                screenerElement.innerHTML = screenerHtml;
+            } else {
+                screenerElement.innerHTML = '<p class="text-muted">No swing trading opportunities found at the moment.</p>';
+            }
+        })
+        .catch(error => {
+            screenerElement.innerHTML = `<p class="text-danger">Error loading screener: ${error.message}</p>`;
+        });
+}
+
+function addScreenerTrade(symbol, price) {
+    // Pre-fill the add trade modal with screener data
+    document.getElementById('symbol').value = symbol;
+    document.getElementById('price').value = price;
+    document.getElementById('action').value = 'BUY'; // Default to BUY for swing trades
+    document.getElementById('quantity').value = ''; // Let user enter quantity
+    
+    // Show the modal
+    showAddTradeModal();
+    
+    // Focus on quantity field
+    setTimeout(() => {
+        document.getElementById('quantity').focus();
+    }, 500);
+}
     const notification = document.createElement('div');
     notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
     notification.style.top = '20px';
