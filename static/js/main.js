@@ -215,6 +215,8 @@ function addScreenerTrade(symbol, price) {
         document.getElementById('quantity').focus();
     }, 500);
 }
+
+function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
     notification.style.top = '20px';
